@@ -5,3 +5,10 @@ sudo apt-get update
 sudo apt-get install g++-5
 
 g++-5 -std=c++14
+
+
+
+//Cory Fleitas
+//CSCE 420-500
+//Due: February 29, 2016
+//hw3pr1.cpp

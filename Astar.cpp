@@ -1,6 +1,10 @@
 #include<iostream>
 #include<fstream>
 #include<bitset>
+
+#include "Solver.h"
+#include "Gate.h"
+
 using namespace std;
 int main()
 {
@@ -24,6 +28,19 @@ int main()
     A ^= 1 << 1;
     cout<<bitset<16>(A)<<"\n";
     */
+    
+    cout<<"\n\n";
+    
+    bitset<16> test1(7);
+    bitset<16> test2(13);
+    bitset<16> test3(91);
+    
+    cout<<test1<<"\n";
+    cout<<test2<<"\n";
+    cout<<test3<<"\n";
+    
+    
+    
     
     return 0;
 }
