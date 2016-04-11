@@ -5,8 +5,8 @@
 #include<vector>
 
 #include "Gate.h"
-
 using namespace std;
+
 class Solver
 {
 private:

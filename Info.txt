@@ -12,3 +12,13 @@ g++-5 -std=c++14
 //CSCE 420-500
 //Due: February 29, 2016
 //hw3pr1.cpp
+
+    /* changes bit in '0-15' position by changing second 1
+    A ^= 1 << 1;
+    cout<<bitset<16>(A)<<"\n";
+    A ^= 1 << 1;
+    cout<<bitset<16>(A)<<"\n";
+    */
+    
+    
+    
