@@ -11,11 +11,14 @@ class Solver
 {
 private:
     vector<Gate> gates;
-    bool solution;
+    bitset<16> solution;
+    int fitness;
 public:
     Solver();
     void addGate(Gate g);
-    bool isSolution();
-    void checkSolution(unsigned int a, unsigned int b, unsigned int c);
+    void calculateSolution(bitset<16> a, bitset<16> b);
+    bool ToffoliGate(int x, int y);
+    int getFitness();
+    void calculateFitness(bitset<16> temp, unsigned int limit);
 };
 #endif
