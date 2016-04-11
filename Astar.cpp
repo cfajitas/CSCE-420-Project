@@ -2,12 +2,14 @@
 #include<fstream>
 #include<vector>
 #include<bitset>
+#include<algorithm>
 
 #include "Solver.h"
 #include "Gate.h"
 using namespace std;
 
 unsigned int getSize(bitset<16> temp);
+
 
 int main()
 {
@@ -25,6 +27,7 @@ int main()
     limitB = getSize(num2);
     limitC = getSize(num3);
     
+    vector<Solver> solutions;
     
     
     return 0;
@@ -40,4 +43,11 @@ unsigned int getSize(bitset<16> temp)
         }
     }
     return 0;
+}
+
+
+
+bool sortFitness(const Node &l, const Node &r)
+{
+    return l.getFitness() < r.getFitness();
 }
