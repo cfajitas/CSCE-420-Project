@@ -32,7 +32,7 @@ bool Solver::ToffoliGate(int x, int y)
     return false;
 }
 
-int Solver::getFitness()
+int Solver::getFitness() const
 {
     return fitness;
 }

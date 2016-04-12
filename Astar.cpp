@@ -47,7 +47,7 @@ unsigned int getSize(bitset<16> temp)
 
 
 
-bool sortFitness(const Node &l, const Node &r)
+bool sortFitness(const Solver &l, const Solver &r)
 {
     return l.getFitness() < r.getFitness();
 }

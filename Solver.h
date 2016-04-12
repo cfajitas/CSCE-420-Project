@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<vector>
+#include<bitset>
 
 #include "Gate.h"
 using namespace std;
@@ -18,7 +19,7 @@ public:
     void addGate(Gate g);
     void calculateSolution(bitset<16> a, bitset<16> b);
     bool ToffoliGate(int x, int y);
-    int getFitness();
+    int getFitness() const;
     void calculateFitness(bitset<16> temp, unsigned int limit);
 };
 #endif
