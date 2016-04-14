@@ -28,7 +28,6 @@ public:
     
     
     void calcFitness();
-    void cull();
-    bool sortFitness(const Circuit &l, const Circuit &r);
+    static bool sortFitness(const Circuit &l, const Circuit &r);
 };
 #endif

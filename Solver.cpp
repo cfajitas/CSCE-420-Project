@@ -16,13 +16,24 @@ void Solver::addNum(bitset<16> p, bitset<16> q, bitset<32> n, int pl, int ql, in
     ++nums;
 }
 
-
-void calcFitness()
+void Solver::run()
 {
-    
+    for(int i=0;i<nums;++i)
+    {
+        
+    }
 }
 
-bool Solver::sortFitness(const Circuit &l, const Circuit &r)
+void Solver::calcFitness()
+{
+    for(int i=0;i<circuits.size();++i)
+    {
+        circuits[i].runGates(pvec,qvec,nvec,nlimits,nums);
+    }
+    sort(circuits.begin(),circuits.end(),sortFitness);
+}
+
+static bool Solver::sortFitness(const Circuit &l, const Circuit &r)
 {
     return l.getFitness() < r.getFitness();
 }

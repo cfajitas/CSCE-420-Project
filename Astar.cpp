@@ -3,6 +3,10 @@
 #include<vector>
 #include<bitset>
 #include<algorithm>
+#include<stdlib.h>
+#include<stdio.h>
+#include<time.h>
+
 
 #include "Solver.h"
 #include "Circuit.h"
@@ -14,6 +18,7 @@ int getSize(bitset<32> temp);
 
 int main()
 {
+    srand(time(NULL));
     Solver solve;
     int A = 0;
     int B = 0;
@@ -29,6 +34,13 @@ int main()
         solve.addNum(num1,num2,num3,A,B,C);
     }
     
+    
+    int random=0;
+    for(int i=0;i<100;++i)
+    {
+        random = rand()%2;
+        cout<<random<<"\n";
+    }
     
     
     return 0;

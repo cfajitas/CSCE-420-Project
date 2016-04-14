@@ -18,8 +18,7 @@ private:
 public:
     Circuit();
     void addGate(int l1, int l2, int l3);
-    bool runCircuit(bitset<16> p, bitset<16> q, bitset<32> n);
-    
+    void runGates(vector<bitset<16>> p, vector<bitset<16>> q, vector<bitset<32>> n, vector<int> nlen, int size);
     long long int getFitness() const;
 };
 #endif
