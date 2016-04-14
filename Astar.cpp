@@ -5,37 +5,38 @@
 #include<algorithm>
 
 #include "Solver.h"
-#include "Gate.h"
+#include "Circuit.h"
+
 using namespace std;
 
-unsigned int getSize(bitset<16> temp);
-
+int getSize(bitset<16> temp);
+int getSize(bitset<32> temp);
 
 int main()
 {
-    cout<<"Hello Cloud9 A* Code Here \n";
-    unsigned int limitA = 0;
-    unsigned int limitB = 0;
-    unsigned int limitC = 0;
-    cin>>limitA;
-    cin>>limitB;
-    cin>>limitC;
-    bitset<16> num1(limitA);
-    bitset<16> num2(limitB);
-    bitset<16> num3(limitC);
-    limitA = getSize(num1);
-    limitB = getSize(num2);
-    limitC = getSize(num3);
+    Solver solve;
+    int A = 0;
+    int B = 0;
+    int C = 0;
+    while(cin>>A>>B>>C)
+    {
+        bitset<16> num1(A);
+        bitset<16> num2(B);
+        bitset<32> num3(C);
+        A = getSize(num1);
+        B = getSize(num2);
+        C = getSize(num3);
+        solve.addNum(num1,num2,num3,A,B,C);
+    }
     
-    vector<Solver> solutions;
     
     
     return 0;
 }
 
-unsigned int getSize(bitset<16> temp)
+int getSize(bitset<16> temp)
 {
-    for(unsigned int i=15;i>=0;--i)
+    for(int i=15;i>=0;--i)
     {
         if(temp[i] == 1)
         {
@@ -45,9 +46,14 @@ unsigned int getSize(bitset<16> temp)
     return 0;
 }
 
-
-
-bool sortFitness(const Solver &l, const Solver &r)
+int getSize(bitset<32> temp)
 {
-    return l.getFitness() < r.getFitness();
+    for(int i=31;i>=0;--i)
+    {
+        if(temp[i] == 1)
+        {
+            return i;
+        }
+    }
+    return 0;
 }

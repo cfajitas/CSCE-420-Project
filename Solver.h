@@ -4,22 +4,31 @@
 #include<iostream>
 #include<vector>
 #include<bitset>
+#include<algorithm>
 
-#include "Gate.h"
+#include "Circuit.h"
+
 using namespace std;
 
 class Solver
 {
 private:
-    vector<Gate> gates;
-    bitset<16> solution;
-    int fitness;
+    vector<bitset<16>> pvec;
+    vector<bitset<16>> qvec;
+    vector<bitset<32>> nvec;
+    vector<int> plimits;
+    vector<int> qlimits;
+    vector<int> nlimits;
+    int nums;
+    vector<Circuit> circuits;
 public:
     Solver();
-    void addGate(Gate g);
-    void calculateSolution(bitset<16> a, bitset<16> b);
-    bool ToffoliGate(int x, int y);
-    int getFitness() const;
-    void calculateFitness(bitset<16> temp, unsigned int limit);
+    void addNum(bitset<16> p, bitset<16> q, bitset<32> n, int pl, int ql, int nl);
+    void run();
+    
+    
+    void calcFitness();
+    void cull();
+    bool sortFitness(const Circuit &l, const Circuit &r);
 };
 #endif
