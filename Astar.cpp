@@ -1,12 +1,10 @@
 #include<iostream>
 #include<fstream>
-#include<vector>
 #include<bitset>
-#include<algorithm>
+#include<limits.h>
 #include<stdlib.h>
 #include<stdio.h>
 #include<time.h>
-
 
 #include "Solver.h"
 #include "Circuit.h"
@@ -34,14 +32,11 @@ int main()
         solve.addNum(num1,num2,num3,A,B,C);
     }
     
+    int numCircuits = 5;
     
-    int random=0;
-    for(int i=0;i<100;++i)
-    {
-        random = rand()%2;
-        cout<<random<<"\n";
-    }
-    
+    solve.setUp(numCircuits);
+    solve.run();
+        
     
     return 0;
 }
