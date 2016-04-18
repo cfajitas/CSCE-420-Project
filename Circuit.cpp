@@ -11,6 +11,7 @@ void Circuit::addGate(int l1, int l2, int l3)
     loc1.push_back(l1);
     loc2.push_back(l2);
     loc3.push_back(l3);
+    flipped.push_back(0);
 }
 
 int Circuit::runGates(int p, int q, vector<int> l)
@@ -18,6 +19,10 @@ int Circuit::runGates(int p, int q, vector<int> l)
     bitset<32> setP(p);
     bitset<32> setQ(q);
     bitset<32> n;
+    for(int i=0;i<flipped.size();++i)
+    {
+        flipped[i] = 0;
+    }
     for(int i=0;i<loc3.size();++i)
     {
         if(loc1[i] <= l[0] && loc2[i] <= l[1] && loc3[i] <= l[2])
@@ -25,6 +30,7 @@ int Circuit::runGates(int p, int q, vector<int> l)
             if(setP[loc1[i]] && setQ[loc2[i]])
             {
                 n.flip(loc3[i]);
+                flipped[i] = 1;
             }
         }
     }
@@ -40,6 +46,21 @@ void Circuit::drop()
         loc1.pop_back();
         loc2.pop_back();
         loc3.pop_back();
+        flipped.pop_back();
+    }
+}
+
+void Circuit::cull()
+{
+    for(int i=flipped.size()-1;i>=0;--i)
+    {
+        if(!flipped[i])
+        {
+            flipped.erase(flipped.begin()+i);
+            loc1.erase(loc1.begin()+i);
+            loc2.erase(loc2.begin()+i);
+            loc3.erase(loc3.begin()+i);
+        }
     }
 }
 
@@ -59,7 +80,8 @@ void Circuit::print()
     cout<<"Gates:\n";
     for(int i=0;i<loc3.size();++i)
     {
-        cout<<"Loc1: "<<loc1[i]<<" Loc2: "<<loc2[i]<<" Loc3: "<<loc3[i]<<"\n";
+        cout<<"Loc1: "<<loc1[i]<<" Loc2: "<<loc2[i]<<" Loc3: "<<loc3[i]<<" Flipped: "<<flipped[i]<<"\n";
     }
+    cout<<"Number of Gates: "<<loc3.size()<<"\n";
     cout<<"Fitness: "<<fitness<<"\n";
 }

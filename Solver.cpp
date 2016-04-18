@@ -31,17 +31,12 @@ void Solver::run()
     {
         addGates();
         calcFitness();
+        revert();
         loc = checkSolution();
         if(loc != -1)
         {
-            cout<<"FOUND SOLUTION \n";
             print(loc);
             go = false;
-        }
-        else
-        {
-            //printTest();
-            revert();
         }
     }while(go);
 }
@@ -96,6 +91,10 @@ void Solver::revert()
     {
         circuits[i].drop();
     }
+    for(int i=0;i<circuits.size();++i)
+    {
+        circuits[i].cull();
+    }
 }
 
 void Solver::print(int cl)
@@ -107,16 +106,4 @@ void Solver::print(int cl)
         cout<<"Current NSET: "<<static_cast<bitset<32>>(circuits[cl].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits()))<<"\n";
     }
     circuits[cl].print();
-}
-
-void Solver::printTest()
-{
-    cout<<"TEST \n";
-    for(int i=0;i<problems.size();++i)
-    {
-        problems[i].print();
-        cout<<"Current N: "<<circuits[0].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits())<<"\n";
-        cout<<"Current NSET: "<<static_cast<bitset<32>>(circuits[0].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits()))<<"\n";
-    }
-    circuits[0].print();
 }

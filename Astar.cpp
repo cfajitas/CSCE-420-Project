@@ -27,8 +27,9 @@ int main()
         Problem temp(A,B,C,sizeP,sizeQ,sizeN);
         solve.addProblem(temp);
     }
-    
     solve.run();
+    
+    
     
     
     return 0;

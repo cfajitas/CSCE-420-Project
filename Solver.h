@@ -29,9 +29,6 @@ public:
     void calcFitness();
     void revert();
     void print(int cl);
-    
-    void printTest();
-    
     static bool sortFitness(const Circuit &l, const Circuit &r)
     {
     	return l.getFitness() > r.getFitness();
