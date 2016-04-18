@@ -1,88 +1,94 @@
 #include "Solver.h"
 
-Solver::Solver()
+Solver::Solver(int nc)
 {
-    nums=0;
-    plimit=0;
-    qlimit=0;
-    nlimit=0;
-    numCircuits=0;
-}
-
-void Solver::addNum(bitset<16> p, bitset<16> q, bitset<32> n, int pl, int ql, int nl)
-{
-    pvec.push_back(p);
-    qvec.push_back(q);
-    nvec.push_back(n);
-    if(pl > plimit)
-    {
-        plimit = pl;
-    }
-    if(ql > qlimit)
-    {
-        qlimit = ql;
-    }
-    if(nl > nlimit)
-    {
-        nlimit = nl;
-    }
-    nlimits.push_back(nl);
-    ++nums;
-}
-
-void Solver::setUp(int n)
-{
-    numCircuits = n;
-    for(int i=0;i<numCircuits;++i)
+    for(int i=0;i<nc;++i)
     {
         circuits.push_back(Circuit());
     }
+    limits.push_back(0);
+    limits.push_back(0);
+    limits.push_back(0);
+}
+
+void Solver::addProblem(Problem p, int sizeP, int sizeQ, int sizeN)
+{
+    problems.push_back(p);
+    if(sizeP > limits[0])
+        limits[0] = sizeP;
+    if(sizeQ > limits[1])
+        limits[1] = sizeQ;
+    if(sizeN > limits[2])
+        limits[2] = sizeN;
 }
 
 void Solver::run()
 {
     bool go = true;
+    int loc = -1;
     do
     {
         addGates();
+        loc = checkSolution();
         calcFitness();
-        revert();
-        int done = checkDone();
-        if(done != -1)
+        if(loc != -1)
         {
+            cout<<"FOUND SOLUTION \n";
+            print(loc);
             go = false;
-            circuits[done].print();
+        }
+        else
+        {
+            printTest();
+            revert();
         }
     }while(go);
-    
 }
 
 void Solver::addGates()
 {
-    int p=0;
-    int q=0;
-    int n=0;
-    for(int i=0;i<numCircuits;++i)
+    for(int i=0;i<circuits.size();++i)
     {
-        p = rand()%plimit;
-        q = rand()%qlimit;
-        n = rand()%nlimit;
-        circuits[i].addGate(p,q,n);
-        
-        
-        cout<<"p loc: "<<p<<"\n";
-        cout<<"q loc: "<<q<<"\n";
-        cout<<"n loc: "<<n<<"\n";
-        
-        
+        int pl = rand()%(limits[0]+1);
+        int ql = rand()%(limits[1]+1);
+        int nl = rand()%(limits[2]+1);
+        circuits[i].addGate(pl,ql,nl);
     }
+}
+
+int Solver::checkSolution()
+{
+    for(int i=0;i<circuits.size();++i)
+    {
+        bool solution  = true;
+        for(int j=0;j<problems.size();++j)
+        {
+            int n = circuits[i].runGates(problems[j].getP(),problems[j].getQ());
+            if(!(problems[j].isSolution(n)))
+            {
+                solution = false;
+            }
+        }
+        if(solution)
+        {
+            return i;
+        }
+        solution = true;
+    }
+    return -1;
 }
 
 void Solver::calcFitness()
 {
     for(int i=0;i<circuits.size();++i)
     {
-        circuits[i].runGates(pvec,qvec,nvec,nlimits,nums);
+        long long int temp=0;
+        for(int j=0;j<problems.size();++j)
+        {
+            int n = circuits[i].runGates(problems[j].getP(),problems[j].getQ());
+            temp+=problems[j].getFitness(n);
+        }
+        circuits[i].setFitness(temp);
     }
     sort(circuits.begin(),circuits.end(),sortFitness);
 }
@@ -91,30 +97,27 @@ void Solver::revert()
 {
     for(int i=0;i<circuits.size();++i)
     {
-        circuits[i].fitnessRevert();
+        circuits[i].drop();
     }
 }
 
-int Solver::checkDone()
+void Solver::print(int cl)
 {
-    int match = 1;
-    vector<bitset<32>> temp;
-    for(int i=0;i<circuits.size();++i)
+    circuits[cl].print();
+    for(int i=0;i<problems.size();++i)
     {
-        temp = circuits[i].getSolutions(pvec,qvec,nvec,nums);
-        for(int j=0;j<nvec.size();++j)
-        {
-            if(temp[j] != nvec[j])
-            {
-                match = 0;
-            }
-        }
-        if(match == 1)
-        {
-            return i;
-        }
-        temp.clear();
-        match=1;
+        cout<<"Current N: "<<circuits[cl].runGates(problems[i].getP(),problems[i].getQ())<<"\n";
+        cout<<"Current NSET: "<<static_cast<bitset<32>>(circuits[cl].runGates(problems[i].getP(),problems[i].getQ()))<<"\n";
     }
-    return -1;
+}
+
+void Solver::printTest()
+{
+    cout<<"TEST \n";
+    circuits[0].print();
+    for(int i=0;i<problems.size();++i)
+    {
+        cout<<"Current N: "<<circuits[0].runGates(problems[i].getP(),problems[i].getQ())<<"\n";
+        cout<<"Current NSET: "<<static_cast<bitset<32>>(circuits[0].runGates(problems[i].getP(),problems[i].getQ()))<<"\n";
+    }
 }

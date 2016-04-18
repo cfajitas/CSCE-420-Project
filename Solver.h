@@ -4,12 +4,12 @@
 #include<iostream>
 #include<vector>
 #include<bitset>
-#include<limits.h>
 #include<algorithm>
-#include<stdlib.h>
 #include<stdio.h>
+#include<stdlib.h>
 #include<time.h>
 
+#include "Problem.h"
 #include "Circuit.h"
 
 using namespace std;
@@ -17,25 +17,21 @@ using namespace std;
 class Solver
 {
 private:
-    vector<bitset<16>> pvec;
-    vector<bitset<16>> qvec;
-    vector<bitset<32>> nvec;
-    int plimit;
-    int qlimit;
-    int nlimit;
-    vector<int> nlimits;
-    int nums;
+    vector<Problem> problems;
     vector<Circuit> circuits;
-    int numCircuits;
+    vector<int> limits;
 public:
-    Solver();
-    void addNum(bitset<16> p, bitset<16> q, bitset<32> n, int pl, int ql, int nl);
-    void setUp(int numCircuits);
+    Solver(int nc);
+    void addProblem(Problem p, int sizeP, int sizeQ, int sizeN);
     void run();
     void addGates();
+    int checkSolution();
     void calcFitness();
     void revert();
-    int checkDone();
+    void print(int cl);
+    
+    void printTest();
+    
     static bool sortFitness(const Circuit &l, const Circuit &r)
     {
     	return l.getFitness() > r.getFitness();
