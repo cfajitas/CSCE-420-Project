@@ -2,6 +2,7 @@
 #define PROBLEM_H
 
 #include<iostream>
+#include<vector>
 #include<bitset>
 
 using namespace std;
@@ -13,11 +14,12 @@ private:
     int q;
     int n;
     bitset<32> nset;
-    int nlimit;
+    vector<int> limits;
 public:
-    Problem(int n1, int n2, int n3, int nl);
+    Problem(int n1, int n2, int n3, int pl, int ql, int nl);
     int getP();
     int getQ();
+    vector<int> getLimits();
     bool isSolution(int num);
     int getFitness(int num);
     void print();

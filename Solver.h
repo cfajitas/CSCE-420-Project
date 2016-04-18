@@ -22,7 +22,7 @@ private:
     vector<int> limits;
 public:
     Solver(int nc);
-    void addProblem(Problem p, int sizeP, int sizeQ, int sizeN);
+    void addProblem(Problem p);
     void run();
     void addGates();
     int checkSolution();

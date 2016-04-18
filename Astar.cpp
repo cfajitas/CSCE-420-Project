@@ -21,9 +21,11 @@ int main()
     Solver solve(100);
     while(cin>>A>>B>>C)
     {
+        int sizeP = getSize(A);
+        int sizeQ = getSize(B);
         int sizeN = getSize(C);
-        Problem temp(A,B,C,sizeN);
-        solve.addProblem(temp,getSize(A),getSize(B),sizeN);
+        Problem temp(A,B,C,sizeP,sizeQ,sizeN);
+        solve.addProblem(temp);
     }
     
     solve.run();

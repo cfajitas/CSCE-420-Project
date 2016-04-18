@@ -18,7 +18,7 @@ private:
 public:
     Circuit();
     void addGate(int l1, int l2, int l3);
-    int runGates(int p, int q);
+    int runGates(int p, int q, vector<int> l);
     void drop();
     void setFitness(long long int f);
     long long int getFitness() const;

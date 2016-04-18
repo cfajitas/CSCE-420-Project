@@ -13,16 +13,19 @@ void Circuit::addGate(int l1, int l2, int l3)
     loc3.push_back(l3);
 }
 
-int Circuit::runGates(int p, int q)
+int Circuit::runGates(int p, int q, vector<int> l)
 {
     bitset<32> setP(p);
     bitset<32> setQ(q);
     bitset<32> n;
     for(int i=0;i<loc3.size();++i)
     {
-        if(setP[loc1[i]] && setQ[loc2[i]])
+        if(loc1[i] <= l[0] && loc2[i] <= l[1] && loc3[i] <= l[2])
         {
-            n.flip(loc3[i]);
+            if(setP[loc1[i]] && setQ[loc2[i]])
+            {
+                n.flip(loc3[i]);
+            }
         }
     }
     return static_cast<int>(n.to_ulong());
@@ -30,7 +33,7 @@ int Circuit::runGates(int p, int q)
 
 void Circuit::drop()
 {
-    if(fitnessOld >= fitness)
+    if(fitnessOld > fitness)
     {
         fitness = fitnessOld;
         fitnessOld = 0;
@@ -53,6 +56,7 @@ long long int Circuit::getFitness() const
 
 void Circuit::print()
 {
+    cout<<"Gates:\n";
     for(int i=0;i<loc3.size();++i)
     {
         cout<<"Loc1: "<<loc1[i]<<" Loc2: "<<loc2[i]<<" Loc3: "<<loc3[i]<<"\n";
