@@ -20,6 +20,7 @@ public:
     Circuit();
     void addGate(int l1, int l2, int l3);
     int runGates(int p, int q, vector<int> l);
+    int resetFlip();
     void drop();
     void cull();
     void setFitness(long long int f);

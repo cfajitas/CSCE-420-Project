@@ -57,6 +57,7 @@ int Solver::checkSolution()
     for(int i=0;i<circuits.size();++i)
     {
         bool solution = true;
+        circuits[i].resetFlip();
         for(int j=0;j<problems.size();++j)
         {
             int n = circuits[i].runGates(problems[j].getP(),problems[j].getQ(),problems[j].getLimits());
@@ -75,6 +76,7 @@ void Solver::calcFitness()
     for(int i=0;i<circuits.size();++i)
     {
         long long int temp=0;
+        circuits[i].resetFlip();
         for(int j=0;j<problems.size();++j)
         {
             int n = circuits[i].runGates(problems[j].getP(),problems[j].getQ(),problems[j].getLimits());
@@ -99,11 +101,13 @@ void Solver::clean()
 
 void Solver::print(int cl)
 {
+    circuits[cl].resetFlip();
     for(int i=0;i<problems.size();++i)
     {
         problems[i].print();
-        cout<<"Current N: "<<circuits[cl].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits())<<"\n";
-        cout<<"Current NSET: "<<static_cast<bitset<32>>(circuits[cl].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits()))<<"\n";
+        int n = circuits[cl].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits());
+        cout<<"Current N: "<<n<<"\n";
+        cout<<"Current NSET: "<<static_cast<bitset<32>>(n)<<"\n";
     }
     circuits[cl].print();
 }

@@ -19,10 +19,6 @@ int Circuit::runGates(int p, int q, vector<int> l)
     bitset<32> setP(p);
     bitset<32> setQ(q);
     bitset<32> n;
-    for(int i=0;i<flipped.size();++i)
-    {
-        flipped[i] = 0;
-    }
     for(int i=0;i<loc3.size();++i)
     {
         if(loc1[i] <= l[0] && loc2[i] <= l[1] && loc3[i] <= l[2])
@@ -35,6 +31,14 @@ int Circuit::runGates(int p, int q, vector<int> l)
         }
     }
     return static_cast<int>(n.to_ulong());
+}
+
+int Circuit::resetFlip()
+{
+    for(int i=0;i<flipped.size();++i)
+    {
+        flipped[i] = 0;
+    }
 }
 
 void Circuit::drop()
