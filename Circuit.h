@@ -21,8 +21,9 @@ public:
     void addGate(int l1, int l2, int l3);
     int runGates(int p, int q, vector<int> l);
     int resetFlip();
-    void drop();
-    void cull();
+    void revert();
+    void cullUsed();
+    void cullDupes(vector<int> p, vector<int> q, vector<vector<int>> ls);
     void setFitness(long long int f);
     long long int getFitness() const;
     void print();

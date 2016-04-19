@@ -91,11 +91,24 @@ void Solver::clean()
 {
     for(int i=0;i<circuits.size();++i)
     {
-        circuits[i].drop();
+        circuits[i].revert();
     }
     for(int i=0;i<circuits.size();++i)
     {
-        circuits[i].cull();
+        circuits[i].cullUsed();
+    }
+    for(int i=0;i<circuits.size();++i)
+    {
+        vector<int> ps;
+        vector<int> qs;
+        vector<vector<int>> ls;
+        for(int j=0;j<problems.size();++j)
+        {
+            ps.push_back(problems[j].getP());
+            qs.push_back(problems[j].getQ());
+            ls.push_back(problems[j].getLimits());
+        }
+        circuits[i].cullDupes(ps,qs,ls);
     }
 }
 
