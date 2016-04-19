@@ -27,7 +27,7 @@ public:
     void addGates();
     int checkSolution();
     void calcFitness();
-    void revert();
+    void clean();
     void print(int cl);
     static bool sortFitness(const Circuit &l, const Circuit &r)
     {

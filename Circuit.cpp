@@ -54,7 +54,7 @@ void Circuit::cull()
 {
     for(int i=flipped.size()-1;i>=0;--i)
     {
-        if(!flipped[i])
+        if(!(flipped[i]))
         {
             flipped.erase(flipped.begin()+i);
             loc1.erase(loc1.begin()+i);
@@ -72,7 +72,7 @@ void Circuit::setFitness(long long int f)
 
 long long int Circuit::getFitness() const
 {
-    return fitness;
+    return fitness-loc3.size();
 }
 
 void Circuit::print()

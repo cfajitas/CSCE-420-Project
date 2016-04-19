@@ -31,7 +31,7 @@ void Solver::run()
     {
         addGates();
         calcFitness();
-        revert();
+        clean();
         loc = checkSolution();
         if(loc != -1)
         {
@@ -85,7 +85,7 @@ void Solver::calcFitness()
     sort(circuits.begin(),circuits.end(),sortFitness);
 }
 
-void Solver::revert()
+void Solver::clean()
 {
     for(int i=0;i<circuits.size();++i)
     {

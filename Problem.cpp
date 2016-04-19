@@ -35,7 +35,7 @@ int Problem::getFitness(int num)
 {
     if(isSolution(num))
     {
-        return (limits[2]+1)*2;
+        return (limits[2]+1)*5;
     }
     else
     {
@@ -48,7 +48,7 @@ int Problem::getFitness(int num)
                 ++count;
             }
         }
-        return count;
+        return count*3;
     }
 }
 

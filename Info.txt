@@ -1,24 +1,13 @@
-sudo add-apt-repository ppa:ubuntu-toolchain-r/test
-
-sudo apt-get update
-
-sudo apt-get install g++-5
-
-g++-5 -std=c++14
-
-
-
 //Cory Fleitas
 //CSCE 420-500
-//Due: February 29, 2016
-//hw3pr1.cpp
+//Due: April 19, 2016
+//Project.cpp
 
-    /* changes bit in '0-15' position by changing second 1
-    A ^= 1 << 1;
-    cout<<bitset<16>(A)<<"\n";
-    A ^= 1 << 1;
-    cout<<bitset<16>(A)<<"\n";
-    */
-    
-    
+
+3  - 
+5  - 
+15 - 
+7  - 
+11 - 
+77 - 
     
