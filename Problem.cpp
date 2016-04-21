@@ -56,6 +56,8 @@ void Problem::print()
 {
     cout<<"Problem\n";
     cout<<"P: "<<p<<" Q: "<<q<<" N: "<<n<<"\n";
+    cout<<"Binary P: "<<static_cast<bitset<32>>(p)<<"\n";
+    cout<<"Binary Q: "<<static_cast<bitset<32>>(q)<<"\n";
     cout<<"Binary N: "<<nset<<"\n";
     cout<<"Plimit: "<<limits[0]<<" QLimit: "<<limits[1]<<" NLimit: "<<limits[2]<<"\n";
 }

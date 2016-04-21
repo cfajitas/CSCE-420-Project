@@ -9,6 +9,7 @@ Solver::Solver(int nc)
     limits.push_back(0);
     limits.push_back(0);
     limits.push_back(0);
+    solutionLoc = 0;
 }
 
 void Solver::addProblem(Problem p)
@@ -35,7 +36,7 @@ void Solver::run()
         loc = checkSolution();
         if(loc != -1)
         {
-            print(loc);
+            solutionLoc = loc;
             go = false;
         }
     }while(go);
@@ -97,30 +98,34 @@ void Solver::clean()
     {
         circuits[i].cullUsed();
     }
-    for(int i=0;i<circuits.size();++i)
-    {
-        vector<int> ps;
-        vector<int> qs;
-        vector<vector<int>> ls;
-        for(int j=0;j<problems.size();++j)
-        {
-            ps.push_back(problems[j].getP());
-            qs.push_back(problems[j].getQ());
-            ls.push_back(problems[j].getLimits());
-        }
-        circuits[i].cullDupes(ps,qs,ls);
-    }
 }
 
-void Solver::print(int cl)
+int Solver::getSolutionLocation()
 {
-    circuits[cl].resetFlip();
+    return solutionLoc;
+}
+
+void Solver::printSolution(string file)
+{
+    circuits[solutionLoc].resetFlip();
+    vector<int> nl;
+    for(int i=0;i<problems.size();++i)
+    {
+        int n = circuits[solutionLoc].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits());
+        nl.push_back(n);
+    }
+    circuits[solutionLoc].printGates(file,nl);
+}
+
+void Solver::print()
+{
+    circuits[solutionLoc].resetFlip();
     for(int i=0;i<problems.size();++i)
     {
         problems[i].print();
-        int n = circuits[cl].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits());
+        int n = circuits[solutionLoc].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits());
         cout<<"Current N: "<<n<<"\n";
         cout<<"Current NSET: "<<static_cast<bitset<32>>(n)<<"\n";
     }
-    circuits[cl].print();
+    circuits[solutionLoc].print();
 }

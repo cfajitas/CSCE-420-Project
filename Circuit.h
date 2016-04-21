@@ -2,6 +2,7 @@
 #define CIRCUIT_H
 
 #include<iostream>
+#include<fstream>
 #include<vector>
 #include<bitset>
 
@@ -23,9 +24,9 @@ public:
     int resetFlip();
     void revert();
     void cullUsed();
-    void cullDupes(vector<int> p, vector<int> q, vector<vector<int>> ls);
     void setFitness(long long int f);
     long long int getFitness() const;
+    void printGates(string file, vector<int> nl);
     void print();
 };
 #endif

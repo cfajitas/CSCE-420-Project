@@ -6,7 +6,9 @@
 #include<time.h>
 
 #include "Problem.h"
+#include "Circuit.h"
 #include "Solver.h"
+#include "Factorize.h"
 
 using namespace std;
 
@@ -28,8 +30,10 @@ int main()
         solve.addProblem(temp);
     }
     solve.run();
+    solve.printSolution("Output.txt");
     
-    
+    Factorize factor("Output.txt");
+    factor.print();
     
     
     return 0;

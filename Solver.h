@@ -20,6 +20,7 @@ private:
     vector<Problem> problems;
     vector<Circuit> circuits;
     vector<int> limits;
+    int solutionLoc;
 public:
     Solver(int nc);
     void addProblem(Problem p);
@@ -28,7 +29,9 @@ public:
     int checkSolution();
     void calcFitness();
     void clean();
-    void print(int cl);
+    int getSolutionLocation();
+    void printSolution(string file);
+    void print();
     static bool sortFitness(const Circuit &l, const Circuit &r)
     {
     	return l.getFitness() > r.getFitness();
