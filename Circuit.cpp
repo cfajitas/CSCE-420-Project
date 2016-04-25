@@ -6,31 +6,10 @@ Circuit::Circuit()
     fitnessOld=0;
 }
 
-void Circuit::addGate(int l1, int l2, int l3)
+void Circuit::addGate(Gate g)
 {
-    loc1.push_back(l1);
-    loc2.push_back(l2);
-    loc3.push_back(l3);
+    gates.push_back(g);
     flipped.push_back(0);
-}
-
-int Circuit::runGates(int p, int q, vector<int> l)
-{
-    bitset<32> setP(p);
-    bitset<32> setQ(q);
-    bitset<32> n;
-    for(int i=0;i<loc3.size();++i)
-    {
-        //if(loc1[i] <= l[0] && loc2[i] <= l[1] && loc3[i] <= l[2])
-        //{
-        if(setP[loc1[i]] && setQ[loc2[i]])
-        {
-            n.flip(loc3[i]);
-            flipped[i] = 1;
-        }
-        //}
-    }
-    return static_cast<int>(n.to_ulong());
 }
 
 int Circuit::resetFlip()
@@ -41,15 +20,56 @@ int Circuit::resetFlip()
     }
 }
 
+bitset<30> Circuit::runGates(bitset<30> pq)
+{
+    for(int i=0;i<gates.size();++i)
+    {
+        if(gates[i].noControllers())
+        {
+            pq.flip(gates[i].getN());
+            flipped[i] = 1;
+        }
+        else
+        {
+            int flip = 1;
+            vector<int> temp = gates[i].getControllers();
+            for(int j=0;j<temp.size();++j)
+            {
+                if(flip)
+                {
+                    if(gates[i].getInverted())
+                    {
+                        if(pq[temp[j]])
+                        {
+                            flip = 0;
+                        }
+                    }
+                    else
+                    {
+                        if(!(pq[temp[j]]))
+                        {
+                            flip = 0;
+                        }
+                    }
+                }
+            }
+            if(flip)
+            {
+                pq.flip(gates[i].getN());
+                flipped[i] = 1;
+            }
+        }
+    }
+    return pq;
+}
+
 void Circuit::revert()
 {
     if(fitnessOld > fitness)
     {
         fitness = fitnessOld;
         fitnessOld = 0;
-        loc1.pop_back();
-        loc2.pop_back();
-        loc3.pop_back();
+        gates.pop_back();
         flipped.pop_back();
     }
 }
@@ -61,9 +81,7 @@ void Circuit::cullUsed()
         if(!(flipped[i]))
         {
             flipped.erase(flipped.begin()+i);
-            loc1.erase(loc1.begin()+i);
-            loc2.erase(loc2.begin()+i);
-            loc3.erase(loc3.begin()+i);
+            gates.erase(gates.begin()+i);
         }
     }
 }
@@ -71,36 +89,53 @@ void Circuit::cullUsed()
 void Circuit::setFitness(long long int f)
 {
     fitnessOld = fitness;
-    fitness = f;
+    fitness = f-gates.size();
 }
 
 long long int Circuit::getFitness() const
 {
-    return fitness-loc3.size();
+    return fitness;
 }
 
-void Circuit::printGates(string file, vector<int> nl)
+/*
+vector<int> Circuit::factorGates(vector<int> nl)
 {
-    ofstream out(file);
-    out<<nl.size()<<"\n";
+    vector<int> pq;
     for(int i=0;i<nl.size();++i)
     {
-        out<<nl[i]<<"\n";
+        bitset<32> p(0);
+        bitset<32> q(0);
+        bitset<32> n(nl[i]);
+        for(int j=loc3.size()-1;j>=0;--j)
+        {
+            if(n[loc3[j]])
+            {
+                p.flip(loc1[j]);
+                q.flip(loc2[j]);
+            }
+        }
+        pq.push_back(static_cast<int>(p.to_ulong()));
+        pq.push_back(static_cast<int>(q.to_ulong()));
     }
-    for(int i=0;i<loc3.size();++i)
+    return pq;
+}
+*/
+
+void Circuit::print(ofstream &out)
+{
+    for(int i=0;i<gates.size();++i)
     {
-        out<<loc1[i]<<" "<<loc2[i]<<" "<<loc3[i]<<"\n";
-    }   
-    out.close();
+        gates[i].print(out);
+    }
+    out<<"Fitness: "<<fitness<<"\n";
 }
 
 void Circuit::print()
 {
-    cout<<"Gates:\n";
-    for(int i=0;i<loc3.size();++i)
+    for(int i=0;i<gates.size();++i)
     {
-        cout<<"Loc1: "<<loc1[i]<<" Loc2: "<<loc2[i]<<" Loc3: "<<loc3[i]<<"\n";
+        gates[i].print();
     }
-    cout<<"Number of Gates: "<<loc3.size()<<"\n";
     cout<<"Fitness: "<<fitness<<"\n";
+    cout<<"NumGates: "<<gates.size()<<"\n";
 }

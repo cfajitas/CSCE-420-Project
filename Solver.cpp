@@ -16,24 +16,28 @@ void Solver::addProblem(Problem p)
 {
     problems.push_back(p);
     vector<int> temp = p.getLimits();
-    if(temp[0] > limits[0])
-        limits[0] = temp[0];
-    if(temp[1] > limits[1])
-        limits[1] = temp[1];
-    if(temp[2] > limits[2])
-        limits[2] = temp[2]; 
+    for(int i=0;i<temp.size();++i)
+    {
+        limits.push_back(temp[i]);
+    }
+    sort(limits.begin(),limits.end());
+    limits.erase(unique(limits.begin(),limits.end()),limits.end());
 }
 
 void Solver::run()
 {
     bool go = true;
     int loc = -1;
+    long long int generations = 0;
     do
     {
+        ++generations;
+        cout<<"Generation: "<<generations<<"\n";
         addGates();
         calcFitness();
         clean();
         loc = checkSolution();
+        print();
         if(loc != -1)
         {
             solutionLoc = loc;
@@ -46,30 +50,17 @@ void Solver::addGates()
 {
     for(int i=0;i<circuits.size();++i)
     {
-        int pl = rand()%(limits[0]+1);
-        int ql = rand()%(limits[1]+1);
-        int nl = rand()%(limits[2]+1);
-        circuits[i].addGate(pl,ql,nl);
-    }
-}
-
-int Solver::checkSolution()
-{
-    for(int i=0;i<circuits.size();++i)
-    {
-        bool solution = true;
-        circuits[i].resetFlip();
-        for(int j=0;j<problems.size();++j)
+        int nl = limits[rand()%limits.size()];
+        vector<int> c;
+        int temp = rand()%3;
+        for(int i=0;i<temp;++i)
         {
-            int n = circuits[i].runGates(problems[j].getP(),problems[j].getQ(),problems[j].getLimits());
-            solution = (solution && problems[j].isSolution(n));
+            c.push_back(limits[rand()%limits.size()]);
         }
-        if(solution)
-        {
-            return i;
-        }
+        temp = rand()%2;
+        Gate g(nl,c,temp);
+        circuits[i].addGate(g);
     }
-    return -1;
 }
 
 void Solver::calcFitness()
@@ -80,7 +71,7 @@ void Solver::calcFitness()
         circuits[i].resetFlip();
         for(int j=0;j<problems.size();++j)
         {
-            int n = circuits[i].runGates(problems[j].getP(),problems[j].getQ(),problems[j].getLimits());
+            bitset<30> n = circuits[i].runGates(problems[j].getPQ());
             temp+=problems[j].getFitness(n);
         }
         circuits[i].setFitness(temp);
@@ -100,21 +91,41 @@ void Solver::clean()
     }
 }
 
+int Solver::checkSolution()
+{
+    for(int i=0;i<circuits.size();++i)
+    {
+        bool solution = true;
+        circuits[i].resetFlip();
+        for(int j=0;j<problems.size();++j)
+        {
+            bitset<30> n = circuits[i].runGates(problems[j].getPQ());
+            solution = (solution && problems[j].isSolution(n));
+        }
+        if(solution)
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
 int Solver::getSolutionLocation()
 {
     return solutionLoc;
 }
 
-void Solver::printSolution(string file)
+void Solver::print(string file)
 {
+    ofstream out(file);
     circuits[solutionLoc].resetFlip();
-    vector<int> nl;
     for(int i=0;i<problems.size();++i)
     {
-        int n = circuits[solutionLoc].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits());
-        nl.push_back(n);
+        bitset<30> n = circuits[solutionLoc].runGates(problems[i].getPQ());
+        out<<n<<"\n";
     }
-    circuits[solutionLoc].printGates(file,nl);
+    circuits[solutionLoc].print(out);
+    out.close();
 }
 
 void Solver::print()
@@ -123,9 +134,8 @@ void Solver::print()
     for(int i=0;i<problems.size();++i)
     {
         problems[i].print();
-        int n = circuits[solutionLoc].runGates(problems[i].getP(),problems[i].getQ(),problems[i].getLimits());
-        cout<<"Current N: "<<n<<"\n";
-        cout<<"Current NSET: "<<static_cast<bitset<32>>(n)<<"\n";
+        bitset<30> n = circuits[solutionLoc].runGates(problems[i].getPQ());
+        cout<<n<<"\n";
     }
     circuits[solutionLoc].print();
 }

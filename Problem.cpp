@@ -1,24 +1,36 @@
 #include "Problem.h"
 
-Problem::Problem(int n1, int n2, int n3, int pl, int ql, int nl)
+Problem::Problem(int pn, int qn, int nn, int pl, int ql, int nl)
 {
-    p = n1;
-    q = n2;
-    n = n3;
-    nset = bitset<32>(n);
-    limits.push_back(pl);
-    limits.push_back(ql);
-    limits.push_back(nl);
+    bitset<15> temp(pn);
+    pq = bitset<30>(qn);
+    for(int i=0;i<15;++i)
+    {
+        if(temp[i])
+        {
+            pq[i+15] = 1;
+        }
+    }
+    n = bitset<30>(nn);
+    for(int i=0;i<=nl;++i)
+    {
+        limits.push_back(i);
+    }
+    for(int i=0;i<=ql;++i)
+    {
+        limits.push_back(i);
+    }
+    for(int i=0;i<=pl;++i)
+    {
+        limits.push_back(i+15);
+    }
+    sort(limits.begin(),limits.end());
+    limits.erase(unique(limits.begin(),limits.end()),limits.end());
 }
 
-int Problem::getP()
+bitset<30> Problem::getPQ()
 {
-    return p;
-}
-
-int Problem::getQ()
-{
-    return q;
+    return pq;
 }
 
 vector<int> Problem::getLimits()
@@ -26,24 +38,23 @@ vector<int> Problem::getLimits()
     return limits;
 }
 
-bool Problem::isSolution(int num)
+bool Problem::isSolution(bitset<30> num)
 {
     return n==num;
 }
 
-int Problem::getFitness(int num)
+int Problem::getFitness(bitset<30> num)
 {
     if(isSolution(num))
     {
-        return (limits[2]+1)*5;
+        return (limits[limits.size()]+1)*5;
     }
     else
     {
-        bitset<32> temp(n);
         int count=0;
-        for(int i=0;i<=limits[2];++i)
+        for(int i=0;i<30;++i)
         {
-            if(nset[i] && temp[i])
+            if(n[i] && num[i])
             {
                 ++count;
             }
@@ -54,10 +65,6 @@ int Problem::getFitness(int num)
 
 void Problem::print()
 {
-    cout<<"Problem\n";
-    cout<<"P: "<<p<<" Q: "<<q<<" N: "<<n<<"\n";
-    cout<<"Binary P: "<<static_cast<bitset<32>>(p)<<"\n";
-    cout<<"Binary Q: "<<static_cast<bitset<32>>(q)<<"\n";
-    cout<<"Binary N: "<<nset<<"\n";
-    cout<<"Plimit: "<<limits[0]<<" QLimit: "<<limits[1]<<" NLimit: "<<limits[2]<<"\n";
+    cout<<"PQ: "<<pq<<"\n";
+    cout<<"N:  "<<n<<"\n";
 }

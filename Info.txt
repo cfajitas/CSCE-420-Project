@@ -4,6 +4,10 @@
 //Project.cpp
 
 
+size function starts from 0, ex: '1' is 2 bits
+
+num - binary - sizeFunction
+
 3  - 0011
 5  - 0101
 7  - 0111

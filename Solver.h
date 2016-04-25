@@ -2,6 +2,7 @@
 #define SOLVER_H
 
 #include<iostream>
+#include<fstream>
 #include<vector>
 #include<bitset>
 #include<algorithm>
@@ -10,6 +11,7 @@
 #include<time.h>
 
 #include "Problem.h"
+#include "Gate.h"
 #include "Circuit.h"
 
 using namespace std;
@@ -26,11 +28,11 @@ public:
     void addProblem(Problem p);
     void run();
     void addGates();
-    int checkSolution();
     void calcFitness();
     void clean();
+    int checkSolution();
     int getSolutionLocation();
-    void printSolution(string file);
+    void print(string file);
     void print();
     static bool sortFitness(const Circuit &l, const Circuit &r)
     {

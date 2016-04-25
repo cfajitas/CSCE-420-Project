@@ -17,9 +17,11 @@ class Factorize
 private:
     vector<int> nlist;
     Circuit answer;
+    vector<int> plist;
+    vector<int> qlist;
 public:
     Factorize(string file);
-    
+    void factorCircuit();
     void print();
 };
 #endif

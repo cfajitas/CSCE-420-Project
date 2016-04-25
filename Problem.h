@@ -4,24 +4,22 @@
 #include<iostream>
 #include<vector>
 #include<bitset>
+#include<algorithm>
 
 using namespace std;
 
 class Problem
 {
 private:
-    int p;
-    int q;
-    int n;
-    bitset<32> nset;
+    bitset<30> pq;
+    bitset<30> n;
     vector<int> limits;
 public:
-    Problem(int n1, int n2, int n3, int pl, int ql, int nl);
-    int getP();
-    int getQ();
+    Problem(int pn, int qn, int nn, int pl, int ql, int nl);
+    bitset<30> getPQ();
     vector<int> getLimits();
-    bool isSolution(int num);
-    int getFitness(int num);
+    bool isSolution(bitset<30> num);
+    int getFitness(bitset<30> num);
     void print();
 };
 #endif

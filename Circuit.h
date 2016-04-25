@@ -6,27 +6,30 @@
 #include<vector>
 #include<bitset>
 
+#include "Gate.h"
+
 using namespace std;
 
 class Circuit
 {
 private:
-    vector<int> loc1;
-    vector<int> loc2;
-    vector<int> loc3;
+    vector<Gate> gates;
     long long int fitness;
     long long int fitnessOld;
     vector<int> flipped;
 public:
     Circuit();
-    void addGate(int l1, int l2, int l3);
-    int runGates(int p, int q, vector<int> l);
+    void addGate(Gate g);
     int resetFlip();
+    bitset<30> runGates(bitset<30> pq);
     void revert();
     void cullUsed();
     void setFitness(long long int f);
     long long int getFitness() const;
-    void printGates(string file, vector<int> nl);
+    
+    //vector<int> factorGates(vector<int> nl);
+    
+    void print(ofstream &out);
     void print();
 };
 #endif
