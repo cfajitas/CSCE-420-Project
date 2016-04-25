@@ -28,11 +28,8 @@ void Solver::run()
 {
     bool go = true;
     int loc = -1;
-    long long int generations = 0;
     do
     {
-        ++generations;
-        cout<<"Generation: "<<generations<<"\n";
         addGates();
         calcFitness();
         clean();
@@ -119,6 +116,7 @@ void Solver::print(string file)
 {
     ofstream out(file);
     circuits[solutionLoc].resetFlip();
+    out<<problems.size()<<"\n";
     for(int i=0;i<problems.size();++i)
     {
         bitset<30> n = circuits[solutionLoc].runGates(problems[i].getPQ());

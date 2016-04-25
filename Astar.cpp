@@ -9,6 +9,7 @@
 #include "Gate.h"
 #include "Circuit.h"
 #include "Solver.h"
+#include "Factorize.h"
 
 using namespace std;
 
@@ -33,9 +34,9 @@ int main()
     solve.print("Output.txt");
     solve.print();
     
-    //Factorize factor("Output.txt");
-    //factor.factorCircuit();
-    //factor.print();
+    Factorize factor("Output.txt");
+    factor.factorCircuit();
+    factor.print();
     
     
     return 0;
@@ -43,8 +44,8 @@ int main()
 
 int getSize(int num)
 {
-    bitset<32> temp(num);
-    for(int i=31;i>=0;--i)
+    bitset<30> temp(num);
+    for(int i=29;i>=0;--i)
     {
         if(temp[i])
         {

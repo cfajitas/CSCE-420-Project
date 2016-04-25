@@ -97,37 +97,54 @@ long long int Circuit::getFitness() const
     return fitness;
 }
 
-/*
-vector<int> Circuit::factorGates(vector<int> nl)
+bitset<30> Circuit::factorGates(bitset<30> n)
 {
-    vector<int> pq;
-    for(int i=0;i<nl.size();++i)
+    for(int i=gates.size()-1;i>=0;--i)
     {
-        bitset<32> p(0);
-        bitset<32> q(0);
-        bitset<32> n(nl[i]);
-        for(int j=loc3.size()-1;j>=0;--j)
+        if(gates[i].noControllers())
         {
-            if(n[loc3[j]])
+            n.flip(gates[i].getN());
+        }
+        else
+        {
+            int flip = 1;
+            vector<int> temp = gates[i].getControllers();
+            for(int j=0;j<temp.size();++j)
             {
-                p.flip(loc1[j]);
-                q.flip(loc2[j]);
+                if(flip)
+                {
+                    if(gates[i].getInverted())
+                    {
+                        if(n[temp[j]])
+                        {
+                            flip = 0;
+                        }
+                    }
+                    else
+                    {
+                        if(!(n[temp[j]]))
+                        {
+                            flip = 0;
+                        }
+                    }
+                }
+            }
+            if(flip)
+            {
+                n.flip(gates[i].getN());
             }
         }
-        pq.push_back(static_cast<int>(p.to_ulong()));
-        pq.push_back(static_cast<int>(q.to_ulong()));
     }
-    return pq;
+    return n;
 }
-*/
 
 void Circuit::print(ofstream &out)
 {
+    out<<gates.size()<<"\n";
     for(int i=0;i<gates.size();++i)
     {
         gates[i].print(out);
     }
-    out<<"Fitness: "<<fitness<<"\n";
 }
 
 void Circuit::print()

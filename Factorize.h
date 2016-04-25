@@ -3,6 +3,7 @@
 
 #include<iostream>
 #include<fstream>
+#include<sstream>
 #include<bitset>
 #include<vector>
 #include<stdio.h>
@@ -15,10 +16,9 @@ using namespace std;
 class Factorize
 {
 private:
-    vector<int> nlist;
+    vector<bitset<30>> nlist;
+    vector<bitset<30>> pqlist;
     Circuit answer;
-    vector<int> plist;
-    vector<int> qlist;
 public:
     Factorize(string file);
     void factorCircuit();

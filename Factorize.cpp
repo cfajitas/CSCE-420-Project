@@ -9,28 +9,34 @@ Factorize::Factorize(string file)
     for(int i=0;i<nNum;++i)
     {
         getline(in,temp);
-        nlist.push_back(atoi(temp.c_str()));
+        nlist.push_back(bitset<30>(temp));
     }
-    //in.ignore(1);
-    int pl = 0;
-    int ql = 0;
-    int nl = 0;
-    while(in>>pl>>ql>>nl)
+    getline(in,temp);
+    int gNum = atoi(temp.c_str());
+    for(int i=0;i<gNum;++i)
     {
-        answer.addGate(pl,ql,nl);
+        getline(in,temp);
+        stringstream ss(temp);
+        int invert = 0;
+        int n = 0;
+        int temp = 0;
+        ss >> invert;
+        ss >> n;
+        vector<int> locs;
+        while(ss >> temp)
+        {
+            locs.push_back(temp);
+        }
+        Gate g(n,locs,invert);
+        answer.addGate(g);
     }
 }
 
 void Factorize::factorCircuit()
 {
-    vector<int> pq = answer.factorGates(nlist);
-    int i = 0;
-    while(i < pq.size())
+    for(int i=0;i<nlist.size();++i)
     {
-        plist.push_back(pq[i]);
-        ++i;
-        qlist.push_back(pq[i]);
-        ++i;
+        pqlist.push_back(answer.factorGates(nlist[i]));
     }
 }
 
@@ -38,12 +44,11 @@ void Factorize::print()
 {
     for(int i=0;i<nlist.size();++i)
     {
-        cout<<nlist[i]<<"\n";
+        cout<<"N:  "<<nlist[i]<<"\n";
+    }
+    for(int i=0;i<pqlist.size();++i)
+    {
+        cout<<"PQ: "<<pqlist[i]<<"\n";
     }
     answer.print();
-    for(int i=0;i<qlist.size();++i)
-    {
-        cout<<"P: "<<plist[i]<<" Q: "<<qlist[i]<<"\n";
-        cout<<"Ps: "<<static_cast<bitset<32>>(plist[i])<<" Qs: "<<static_cast<bitset<32>>(qlist[i])<<"\n";
-    }
 }

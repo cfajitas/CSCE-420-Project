@@ -5,6 +5,10 @@
 #include<fstream>
 #include<vector>
 #include<bitset>
+#include<algorithm>
+#include<stdio.h>
+#include<stdlib.h>
+#include<time.h>
 
 #include "Gate.h"
 
@@ -26,10 +30,10 @@ public:
     void cullUsed();
     void setFitness(long long int f);
     long long int getFitness() const;
-    
-    //vector<int> factorGates(vector<int> nl);
-    
+    bitset<30> factorGates(bitset<30> n);
     void print(ofstream &out);
     void print();
+    
+    static int random(int i){return rand()%i;}
 };
 #endif
