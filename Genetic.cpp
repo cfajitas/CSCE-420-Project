@@ -21,7 +21,7 @@ int main()
     int A = 0;
     int B = 0;
     int C = 0;
-    Solver solve(100);
+    Solver solve(10000);
     while(cin>>A>>B>>C)
     {
         int sizeP = getSize(A);
@@ -30,7 +30,7 @@ int main()
         Problem temp(A,B,C,sizeP,sizeQ,sizeN);
         solve.addProblem(temp);
     }
-    solve.run();
+    solve.runGenetic();
     solve.print("Output.txt");
     solve.print();
     

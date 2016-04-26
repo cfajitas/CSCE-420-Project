@@ -30,14 +30,13 @@ int main()
         Problem temp(A,B,C,sizeP,sizeQ,sizeN);
         solve.addProblem(temp);
     }
-    solve.run();
+    solve.runAStar();
     solve.print("Output.txt");
     solve.print();
     
     Factorize factor("Output.txt");
     factor.factorCircuit();
     factor.print();
-    
     
     return 0;
 }

@@ -21,3 +21,13 @@ num - binary - sizeFunction
 3 7 21
 5 7 35
 7 11 77
+
+Genetic:
+
+Mutate aka addGate
+delete aka delete
+crossover
+
+keep top %
+
+

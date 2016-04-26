@@ -86,6 +86,30 @@ void Circuit::cullUsed()
     }
 }
 
+int Circuit::getGateNum()
+{
+    return gates.size();
+}
+
+void Circuit::deleteRandomGate(int i)
+{
+    if(!gates.empty())
+    {
+        gates.erase(gates.begin()+i);
+        flipped.erase(flipped.begin()+i);
+    }
+}
+
+vector<Gate> Circuit::getGates()
+{
+    return gates;
+}
+
+void Circuit::setGates(vector<Gate> g)
+{
+    gates = g;
+}
+
 void Circuit::setFitness(long long int f)
 {
     fitnessOld = fitness;

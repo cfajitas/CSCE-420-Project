@@ -22,14 +22,21 @@ private:
     vector<Problem> problems;
     vector<Circuit> circuits;
     vector<int> limits;
+    int gateLimit;
     int solutionLoc;
 public:
-    Solver(int nc);
+    Solver(int gl);
     void addProblem(Problem p);
-    void run();
+    void runGenetic();
+    void runAStar();
+    void mutate(int k);
+    void randomDelete();
+    void crossover(int k);
+    void shrink();
     void addGates();
+    void revert();
+    void cull();
     void calcFitness();
-    void clean();
     int checkSolution();
     int getSolutionLocation();
     void print(string file);
