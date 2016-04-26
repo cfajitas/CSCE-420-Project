@@ -34,26 +34,25 @@ void Solver::runGenetic()
         ++generation;
         if(generation%100==0)
         {
-            cout<<"Delete\n";
             randomDelete();
-            cout<<"Done\n";
         }
-        else if(generation%25==0)
+        else if(generation%20==0)
         {
-            cout<<"Crossover\n";
             crossover(keep);
-            cout<<"Done\n";
         }
         else
         {
-            cout<<"Mutate\n";
             mutate(keep);
-            cout<<"Done\n";
         }
         calcFitness();
         shrink();
-        cull();
+        //cull();
         loc = checkSolution();
+        if(generation%1000 == 0)
+        {
+            cout<<"Generation: "<<generation<<"\n";
+            cout<<"Num Gates:  "<<circuits[0].getGateNum()<<"\n";
+        }
         if(loc != -1)
         {
             solutionLoc = loc;
@@ -113,11 +112,8 @@ void Solver::crossover(int k)
     }
     for(int i=0;i<k;i+=2)
     {
-        cout<<"fault 1\n";
         vector<Gate> g1 = circuits[i].getGates();
-        cout<<"fault 2\n";
         vector<Gate> g2 = circuits[i+1].getGates();
-        cout<<"fault 3\n";
         if(g1.size() >= 2 && g2.size() >= 2)
         {
             vector<Gate> g1h1;
@@ -140,7 +136,6 @@ void Solver::crossover(int k)
             {
                 g2h2.push_back(g2[j]);
             }
-            cout<<"fault 4\n";
             vector<vector<Gate>> crosses;
             crosses.push_back(vector<Gate>(g1h1));
             crosses.push_back(vector<Gate>(g2h1));
@@ -152,40 +147,31 @@ void Solver::crossover(int k)
             crosses.push_back(vector<Gate>(g1h2));
             crosses.push_back(vector<Gate>(g2h2));
             crosses.push_back(vector<Gate>(g1h2));
-            cout<<"fault 5\n";
-            cout<<"g1h1 "<<g1h1.size()<<"\n";
-            cout<<"g1h2 "<<g1h2.size()<<"\n";
-            cout<<"g2h1 "<<g2h1.size()<<"\n";
-            cout<<"g2h2 "<<g2h2.size()<<"\n";
             for(int j=0;j<g1h1.size();++j)
             {
-                crosses[6].push_back(g1h1[j]);
-                crosses[10].push_back(g1h1[j]);
+                crosses[5].push_back(g1h1[j]);
+                crosses[9].push_back(g1h1[j]);
             }
             for(int j=0;j<g1h2.size();++j)
             {
+                crosses[1].push_back(g1h2[j]);
                 crosses[2].push_back(g1h2[j]);
-                crosses[3].push_back(g1h2[j]);
-                crosses[5].push_back(g1h2[j]);
+                crosses[4].push_back(g1h2[j]);
             }
             for(int j=0;j<g2h1.size();++j)
             {
-                crosses[7].push_back(g2h1[j]);
-                crosses[9].push_back(g2h1[j]);
+                crosses[6].push_back(g2h1[j]);
+                crosses[8].push_back(g2h1[j]);
             }
             for(int j=0;j<g2h2.size();++j)
             {
-                crosses[1].push_back(g2h2[j]);
-                crosses[4].push_back(g2h2[j]);
-                crosses[8].push_back(g2h2[j]);
+                crosses[0].push_back(g2h2[j]);
+                crosses[3].push_back(g2h2[j]);
+                crosses[7].push_back(g2h2[j]);
             }
             for(int j=0;j<crosses.size();++j)
             {
-                cout<<"fault 6\n";
-                circuits.push_back(Circuit());
-                cout<<"fault 7\n";
-                circuits[circuits.size()-1].setGates(crosses[j]);
-                cout<<"fault 8\n";
+                circuits.push_back(Circuit(crosses[j]));
             }
         }
     }

@@ -6,6 +6,17 @@ Circuit::Circuit()
     fitnessOld=0;
 }
 
+Circuit::Circuit(vector<Gate> g)
+{
+    fitness=0;
+    fitnessOld=0;
+    gates = g;
+    for(int i=0;i<gates.size();++i)
+    {
+        flipped.push_back(0);
+    }
+}
+
 void Circuit::addGate(Gate g)
 {
     gates.push_back(g);
@@ -103,11 +114,6 @@ void Circuit::deleteRandomGate(int i)
 vector<Gate> Circuit::getGates()
 {
     return gates;
-}
-
-void Circuit::setGates(vector<Gate> g)
-{
-    gates = g;
 }
 
 void Circuit::setFitness(long long int f)

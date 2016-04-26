@@ -23,6 +23,7 @@ private:
     vector<int> flipped;
 public:
     Circuit();
+    Circuit(vector<Gate> g);
     void addGate(Gate g);
     int resetFlip();
     bitset<30> runGates(bitset<30> pq);
@@ -31,7 +32,6 @@ public:
     int getGateNum();
     void deleteRandomGate(int i);
     vector<Gate> getGates();
-    void setGates(vector<Gate> g);
     void setFitness(long long int f);
     long long int getFitness() const;
     bitset<30> factorGates(bitset<30> n);
