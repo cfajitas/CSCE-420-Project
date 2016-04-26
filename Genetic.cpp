@@ -21,7 +21,7 @@ int main()
     int A = 0;
     int B = 0;
     int C = 0;
-    Solver solve(10000);
+    Solver solve(100);
     while(cin>>A>>B>>C)
     {
         int sizeP = getSize(A);

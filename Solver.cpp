@@ -46,7 +46,6 @@ void Solver::runGenetic()
         }
         calcFitness();
         shrink();
-        //cull();
         loc = checkSolution();
         if(generation%1000 == 0)
         {
@@ -200,7 +199,7 @@ void Solver::addGates()
     {
         int nl = limits[rand()%limits.size()];
         vector<int> c;
-        int temp = rand()%3;
+        int temp = rand()%2;
         for(int i=0;i<temp;++i)
         {
             c.push_back(limits[rand()%limits.size()]);
