@@ -16,17 +16,17 @@ Solver.o: Problem.h Gate.h Circuit.h Solver.h Solver.cpp
 Factorize.o: Gate.h Circuit.h Factorize.h Factorize.cpp
 	$(CC) -c Factorize.cpp
 
-Genetic.o: Problem.h Gate.h Circuit.h Solver.h Genetic.cpp
+Genetic.o: Problem.h Gate.h Circuit.h Solver.h Factorize.h Genetic.cpp
 	$(CC) -c Genetic.cpp
 
-Astar.o: Problem.h Gate.h Circuit.h Solver.h Astar.cpp
+Astar.o: Problem.h Gate.h Circuit.h Solver.h Factorize.h Astar.cpp
 	$(CC) -c Astar.cpp
 
-Genetic: Problem.o Gate.o Circuit.o Solver.o Genetic.o Factorize.o
-	$(CC) -o Genetic Problem.o Gate.o Circuit.o Solver.o Genetic.o Factorize.o
+Genetic: Problem.o Gate.o Circuit.o Solver.o Factorize.o Genetic.o 
+	$(CC) -o Genetic Problem.o Gate.o Circuit.o Solver.o Factorize.o Genetic.o
 	
-Astar: Problem.o Gate.o Circuit.o Solver.o Astar.o Factorize.o
-	$(CC) -o Astar Problem.o Gate.o Circuit.o Solver.o Astar.o Factorize.o
+Astar: Problem.o Gate.o Circuit.o Solver.o Factorize.o Astar.o
+	$(CC) -o Astar Problem.o Gate.o Circuit.o Solver.o Factorize.o Astar.o
 
 clean:
 	rm -f *.o Genetic Astar

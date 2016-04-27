@@ -111,6 +111,14 @@ void Circuit::deleteRandomGate(int i)
     }
 }
 
+void Circuit::mutateRandomGate(int i, int j)
+{
+    if(!gates.empty())
+    {
+        gates[i].setN(j);
+    }    
+}
+
 vector<Gate> Circuit::getGates()
 {
     return gates;

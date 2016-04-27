@@ -31,6 +31,7 @@ public:
     void cullUsed();
     int getGateNum();
     void deleteRandomGate(int i);
+    void mutateRandomGate(int i, int j);
     vector<Gate> getGates();
     void setFitness(long long int f);
     long long int getFitness() const;

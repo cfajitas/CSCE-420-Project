@@ -29,14 +29,16 @@ public:
     void addProblem(Problem p);
     void runGenetic();
     void runAStar();
-    void mutate(int k);
+    void addNewGates(int k);
+    void mutate();
     void randomDelete();
     void crossover(int k);
     void shrink();
-    void addGates();
+    void addGatesAstar();
     void revert();
     void cull();
     void calcFitness();
+    void runSortFitness();
     int checkSolution();
     int getSolutionLocation();
     void print(string file);

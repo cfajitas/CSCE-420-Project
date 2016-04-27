@@ -22,6 +22,11 @@ int Gate::getN()
     return n;
 }
 
+void Gate::setN(int nt)
+{
+    n = nt;
+}
+
 vector<int> Gate::getControllers()
 {
     return controllers;

@@ -20,12 +20,12 @@ void Solver::addProblem(Problem p)
 
 void Solver::runGenetic()
 {
-    int keep = gateLimit/10;
+    int keep = gateLimit/5;
     for(int i=0;i<keep;++i)
     {
         circuits.push_back(Circuit());
     }
-    addGates();
+    addNewGates(keep);
     bool go = true;
     int loc = -1;
     unsigned long long int generation=0;
@@ -36,16 +36,19 @@ void Solver::runGenetic()
         {
             randomDelete();
         }
-        else if(generation%20==0)
+        if(generation%20==0)
         {
             crossover(keep);
         }
-        else
+        if(generation%10==0)
         {
-            mutate(keep);
+            mutate();
         }
+        addNewGates(keep);
         calcFitness();
+        runSortFitness();
         shrink();
+        cull();
         loc = checkSolution();
         if(generation%1000 == 0)
         {
@@ -69,22 +72,31 @@ void Solver::runAStar()
     }
     bool go = true;
     int loc = -1;
+    unsigned long long int generation=0;
     do
     {
-        addGates();
+        ++generation;
+        addGatesAstar();
         calcFitness();
         revert();
+        runSortFitness();
         cull();
         loc = checkSolution();
+        if(generation%1000 == 0)
+        {
+            cout<<"Generation: "<<generation<<"\n";
+            cout<<"Num Gates:  "<<circuits[0].getGateNum()<<"\n";
+        }
         if(loc != -1)
         {
             solutionLoc = loc;
+            cout<<"Generation: "<<generation<<"\n";
             go = false;
         }
     }while(go);
 }
 
-void Solver::mutate(int k)
+void Solver::addNewGates(int k)
 {
     for(int i=0;i<k;++i)
     {
@@ -100,6 +112,16 @@ void Solver::mutate(int k)
         Gate g(nl,c,temp);
         tempCircuit.addGate(g);
         circuits.push_back(tempCircuit);
+    }
+}
+
+void Solver::mutate()
+{
+    for(int i=0;i<circuits.size();++i)
+    {
+        int loc = rand()%circuits[i].getGateNum();
+        int temp = rand()%2;
+        circuits[i].mutateRandomGate(loc,temp);
     }
 }
 
@@ -193,13 +215,13 @@ void Solver::shrink()
     }
 }
 
-void Solver::addGates()
+void Solver::addGatesAstar()
 {
     for(int i=0;i<circuits.size();++i)
     {
         int nl = limits[rand()%limits.size()];
         vector<int> c;
-        int temp = rand()%2;
+        int temp = rand()%3;
         for(int i=0;i<temp;++i)
         {
             c.push_back(limits[rand()%limits.size()]);
@@ -239,6 +261,10 @@ void Solver::calcFitness()
         }
         circuits[i].setFitness(temp);
     }
+}
+
+void Solver::runSortFitness()
+{
     sort(circuits.begin(),circuits.end(),sortFitness);
 }
 

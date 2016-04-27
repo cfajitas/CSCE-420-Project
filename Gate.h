@@ -17,6 +17,7 @@ private:
 public:
     Gate(int nl, vector<int> c, int invert);
     int getN();
+    void setN(int nt);
     vector<int> getControllers();
     bool noControllers();
     bool getInverted();
