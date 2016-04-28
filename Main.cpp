@@ -28,7 +28,16 @@ int main()
     int A = 0;
     int B = 0;
     int C = 0;
-    Solver solve(10000);
+	int gateLimit = 0;
+	if(temp == "1")
+	{
+		gateLimit = 1000;
+	}
+	if(temp == "2")
+	{
+		gateLimit = 10000;
+	}
+    Solver solve(gateLimit);
     while(in>>A>>B>>C)
     {
         int sizeP = getSize(A);
