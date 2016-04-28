@@ -65,6 +65,6 @@ int Problem::getFitness(bitset<30> num)
 
 void Problem::print()
 {
-    cout<<"PQ: "<<pq<<"\n";
-    cout<<"N:  "<<n<<"\n";
+    cout<<"PQ:           "<<pq<<"\n";
+    cout<<"N:            "<<n<<"\n";
 }

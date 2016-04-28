@@ -191,6 +191,5 @@ void Circuit::print()
     {
         gates[i].print();
     }
-    cout<<"Fitness: "<<fitness<<"\n";
     cout<<"NumGates: "<<gates.size()<<"\n";
 }

@@ -38,7 +38,6 @@ public:
     bitset<30> factorGates(bitset<30> n);
     void print(ofstream &out);
     void print();
-    
     static int random(int i){return rand()%i;}
 };
 #endif

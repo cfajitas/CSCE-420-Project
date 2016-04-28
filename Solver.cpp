@@ -313,7 +313,7 @@ void Solver::print()
     {
         problems[i].print();
         bitset<30> n = circuits[solutionLoc].runGates(problems[i].getPQ());
-        cout<<n<<"\n";
+        cout<<"Calculated N: "<<n<<"\n";
     }
     circuits[solutionLoc].print();
 }
