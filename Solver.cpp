@@ -1,11 +1,18 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Solver.cpp
+
 #include "Solver.h"
 
+//Contructor sets the max limit of possible solutions to test out
 Solver::Solver(int gl)
 {
     gateLimit = gl;
     solutionLoc = 0;
 }
 
+//Adds in all problems to solve and keeps track of potential bits that need to be used
 void Solver::addProblem(Problem p)
 {
     problems.push_back(p);
@@ -18,8 +25,11 @@ void Solver::addProblem(Problem p)
     limits.erase(unique(limits.begin(),limits.end()),limits.end());
 }
 
+//Runs the genetic algorithm
+//Note: Longer than 24 lines due to extensive commenting needed
 void Solver::runGenetic()
 {
+    //Uses top 20% of children
     int keep = gateLimit/5;
     for(int i=0;i<keep;++i)
     {
@@ -32,18 +42,22 @@ void Solver::runGenetic()
     do
     {
         ++generation;
+        //Randomly deletes a gate every 100 generations
         if(generation%100==0)
         {
             randomDelete();
         }
+        //Gets all crosses for top 20% of children every 20 generations
         if(generation%20==0)
         {
             crossover(keep);
         }
+        //Mutates a Random Gate every 10 generations
         if(generation%10==0)
         {
             mutate();
         }
+        //Adds a new random Gate every generation
         addNewGates(keep);
         calcFitness();
         runSortFitness();
@@ -64,6 +78,7 @@ void Solver::runGenetic()
     }while(go);
 }
 
+//Runs the genetic algorithm
 void Solver::runAStar()
 {
     for(int i=0;i<gateLimit;++i)
@@ -75,6 +90,7 @@ void Solver::runAStar()
     unsigned long long int generation=0;
     do
     {
+        //algorithm adds new random gate every generation, and reverts if the fitness value goes lower
         ++generation;
         addGatesAstar();
         calcFitness();
@@ -96,6 +112,7 @@ void Solver::runAStar()
     }while(go);
 }
 
+//Adds new random gate with a controlled bit, 0 1 or 2 controller bits, and inverted bool
 void Solver::addNewGates(int k)
 {
     for(int i=0;i<k;++i)
@@ -115,6 +132,7 @@ void Solver::addNewGates(int k)
     }
 }
 
+//Randomly changes the controlled bit of a gate
 void Solver::mutate()
 {
     for(int i=0;i<circuits.size();++i)
@@ -125,6 +143,10 @@ void Solver::mutate()
     }
 }
 
+//Crosses over all pairs in the top 20% of solutions
+//EX: 1 and 2, 3 and 4, etc.
+//Note longer than 24 lines due to the extensive data modification needed to collect all 
+//10 possible crosses resulting from 2 solutions
 void Solver::crossover(int k)
 {
     if(k%2 == 0)
@@ -198,6 +220,7 @@ void Solver::crossover(int k)
     }
 }
 
+//Randomly deletes a gate
 void Solver::randomDelete()
 {
     for(int i=0;i<circuits.size();++i)
@@ -207,6 +230,7 @@ void Solver::randomDelete()
     }
 }
 
+//Shrinks the solution vector back to the limit set at beginining
 void Solver::shrink()
 {
     if(circuits.size() > gateLimit)
@@ -215,6 +239,7 @@ void Solver::shrink()
     }
 }
 
+//Adds a random new gate to all the possible solutions
 void Solver::addGatesAstar()
 {
     for(int i=0;i<circuits.size();++i)
@@ -232,6 +257,7 @@ void Solver::addGatesAstar()
     }
 }
 
+//If the most recent gate dropped the fitness score, throw it away
 void Solver::revert()
 {
     for(int i=0;i<circuits.size();++i)
@@ -240,6 +266,7 @@ void Solver::revert()
     }
 }
 
+//Removes all gates that do not flip a bit after running through all the pairs of numbers
 void Solver::cull()
 {
     for(int i=0;i<circuits.size();++i)
@@ -248,6 +275,7 @@ void Solver::cull()
     }
 }
 
+//Sets the fitness score for each solution
 void Solver::calcFitness()
 {
     for(int i=0;i<circuits.size();++i)
@@ -263,6 +291,7 @@ void Solver::calcFitness()
     }
 }
 
+//Sorts the solution list and puts the best ones in the front
 void Solver::runSortFitness()
 {
     sort(circuits.begin(),circuits.end(),sortFitness);
@@ -287,11 +316,13 @@ int Solver::checkSolution()
     return -1;
 }
 
+//Gets the location of a solution if one is found
 int Solver::getSolutionLocation()
 {
     return solutionLoc;
 }
 
+//Prints solution found to a text file
 void Solver::print(string file)
 {
     ofstream out(file);
@@ -306,6 +337,7 @@ void Solver::print(string file)
     out.close();
 }
 
+//Prints out solution to the command line
 void Solver::print()
 {
     circuits[solutionLoc].resetFlip();

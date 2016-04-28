@@ -1,5 +1,11 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Gate.cpp
+
 #include "Gate.h"
 
+//Contructor takes in the controlled bit, controller bits, and inverted bool
 Gate::Gate(int nl, vector<int> c, int invert)
 {
     n = nl;
@@ -17,21 +23,25 @@ Gate::Gate(int nl, vector<int> c, int invert)
     }
 }
 
+//Return the controlled bit
 int Gate::getN()
 {
     return n;
 }
 
+//Change the controlled bit
 void Gate::setN(int nt)
 {
     n = nt;
 }
 
+//Get the controller bits
 vector<int> Gate::getControllers()
 {
     return controllers;
 }
 
+//If no controller bits, returns true to flip controlled bit
 bool Gate::noControllers()
 {
     if(controllers.empty())
@@ -41,11 +51,13 @@ bool Gate::noControllers()
     return false;
 }
 
+//Return inverted bool
 bool Gate::getInverted()
 {
     return inverted;
 }
 
+//Prints solution to text file
 void Gate::print(ofstream &out)
 {
     if(inverted)
@@ -64,6 +76,7 @@ void Gate::print(ofstream &out)
     out<<"\n";
 }
 
+//Prints solution to command line
 void Gate::print()
 {
     if(inverted)

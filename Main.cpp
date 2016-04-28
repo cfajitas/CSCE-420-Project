@@ -1,3 +1,8 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Main.cpp
+
 #include<iostream>
 #include<fstream>
 #include<bitset>
@@ -15,6 +20,7 @@ using namespace std;
 
 int getSize(int num);
 
+//Main Function is longer than 24 lines due to the need to get user input
 int main()
 {
     srand(time(NULL));
@@ -38,6 +44,7 @@ int main()
 		gateLimit = 10000;
 	}
     Solver solve(gateLimit);
+    //Loop takes in all P Q N in the text file
     while(in>>A>>B>>C)
     {
         int sizeP = getSize(A);
@@ -62,9 +69,11 @@ int main()
         cout<<"Exiting\n";
         return 0;
     }
+    //Prints out solution found
     string outFile = file+"_Output.txt";
     solve.print(outFile);
     solve.print();
+    //Reads in solution and factorizes the N back into P and Q
     cout<<"\nFactoring Solution\n";
     Factorize factor(outFile);
     factor.factorCircuit();
@@ -72,6 +81,7 @@ int main()
     return 0;
 }
 
+//Returns the number of bits in a number without leading zeros
 int getSize(int num)
 {
     bitset<30> temp(num);

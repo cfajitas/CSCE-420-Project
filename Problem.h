@@ -1,3 +1,8 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Problem.h
+
 #ifndef PROBLEM_H
 #define PROBLEM_H
 
@@ -7,6 +12,8 @@
 #include<algorithm>
 
 using namespace std;
+
+//Holds the info for each P Q pair of numbers and calculates the fitness for possible solutions
 
 class Problem
 {

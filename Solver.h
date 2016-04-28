@@ -1,3 +1,8 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Solver.h
+
 #ifndef SOLVER_H
 #define SOLVER_H
 
@@ -15,6 +20,8 @@
 #include "Circuit.h"
 
 using namespace std;
+
+//This class contains the series of primes to multiply, and a vector of possible solutions
 
 class Solver
 {
@@ -43,6 +50,7 @@ public:
     int getSolutionLocation();
     void print(string file);
     void print();
+    //static bool is used for STL sort when arranging by fitness
     static bool sortFitness(const Circuit &l, const Circuit &r)
     {
     	return l.getFitness() > r.getFitness();

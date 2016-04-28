@@ -1,3 +1,8 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Factorize.h
+
 #ifndef FACTORIZE_H
 #define FACTORIZE_H
 
@@ -12,6 +17,8 @@
 #include "Circuit.h"
 
 using namespace std;
+
+//This class reads in the N value and the solution and calculates the P Q values
 
 class Factorize
 {

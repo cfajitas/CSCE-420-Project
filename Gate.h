@@ -1,3 +1,8 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Gate.h
+
 #ifndef GATE_H
 #define GATE_H
 
@@ -7,6 +12,8 @@
 #include<bitset>
 
 using namespace std;
+
+//This class holds the info for a gate
 
 class Gate
 {

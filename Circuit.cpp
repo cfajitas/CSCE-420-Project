@@ -1,11 +1,18 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Circuit.cpp
+
 #include "Circuit.h"
 
+//Contructor sets the initial zero fitness
 Circuit::Circuit()
 {
     fitness=0;
     fitnessOld=0;
 }
 
+//Contructor for prexisting set of gates
 Circuit::Circuit(vector<Gate> g)
 {
     fitness=0;
@@ -17,12 +24,14 @@ Circuit::Circuit(vector<Gate> g)
     }
 }
 
+//Adds gate and check to see if gate is used
 void Circuit::addGate(Gate g)
 {
     gates.push_back(g);
     flipped.push_back(0);
 }
 
+//Resets check for gate use
 int Circuit::resetFlip()
 {
     for(int i=0;i<flipped.size();++i)
@@ -31,6 +40,7 @@ int Circuit::resetFlip()
     }
 }
 
+//Returns the result N after running PQ through all the gates
 bitset<30> Circuit::runGates(bitset<30> pq)
 {
     for(int i=0;i<gates.size();++i)
@@ -74,6 +84,7 @@ bitset<30> Circuit::runGates(bitset<30> pq)
     return pq;
 }
 
+//If the most recent gate dropped the fitness, revert back
 void Circuit::revert()
 {
     if(fitnessOld > fitness)
@@ -85,6 +96,7 @@ void Circuit::revert()
     }
 }
 
+//Removes all unused gates that did not flip a bit for any pair of numbers
 void Circuit::cullUsed()
 {
     for(int i=flipped.size()-1;i>=0;--i)
@@ -97,11 +109,13 @@ void Circuit::cullUsed()
     }
 }
 
+//Returns the size of the solution
 int Circuit::getGateNum()
 {
     return gates.size();
 }
 
+//Deletes a random gate in the solution
 void Circuit::deleteRandomGate(int i)
 {
     if(!gates.empty())
@@ -111,6 +125,7 @@ void Circuit::deleteRandomGate(int i)
     }
 }
 
+//Changes the controlled bit in a random gate in the solution
 void Circuit::mutateRandomGate(int i, int j)
 {
     if(!gates.empty())
@@ -119,22 +134,26 @@ void Circuit::mutateRandomGate(int i, int j)
     }    
 }
 
+//returns the solution gates
 vector<Gate> Circuit::getGates()
 {
     return gates;
 }
 
+//Sets the current and previous fitness, subtracting the size of the solution from the fitness score
 void Circuit::setFitness(long long int f)
 {
     fitnessOld = fitness;
     fitness = f-gates.size();
 }
 
+//Returns the fitness score
 long long int Circuit::getFitness() const
 {
     return fitness;
 }
 
+//Runs the gates in reverse on N in order to return the P and Q values
 bitset<30> Circuit::factorGates(bitset<30> n)
 {
     for(int i=gates.size()-1;i>=0;--i)
@@ -176,6 +195,7 @@ bitset<30> Circuit::factorGates(bitset<30> n)
     return n;
 }
 
+//Prints the solution to a text file
 void Circuit::print(ofstream &out)
 {
     out<<gates.size()<<"\n";
@@ -185,6 +205,7 @@ void Circuit::print(ofstream &out)
     }
 }
 
+//Prints the solution to the command line
 void Circuit::print()
 {
     for(int i=0;i<gates.size();++i)

@@ -1,5 +1,11 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Factorize.cpp
+
 #include "Factorize.h"
 
+//Contructor reads in the N values and Gates for a solution from the given text file
 Factorize::Factorize(string file)
 {
     ifstream in(file);
@@ -32,6 +38,8 @@ Factorize::Factorize(string file)
     }
 }
 
+
+//Calculates the PQ value from running the gates solution in reverse
 void Factorize::factorCircuit()
 {
     for(int i=0;i<nlist.size();++i)
@@ -40,6 +48,7 @@ void Factorize::factorCircuit()
     }
 }
 
+//Prints out the P Q valuea and the N they were factored from
 void Factorize::print()
 {
     for(int i=0;i<nlist.size();++i)

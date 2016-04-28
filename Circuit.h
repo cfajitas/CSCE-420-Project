@@ -1,3 +1,8 @@
+//Cory Fleitas
+//CSCE 420-500
+//Due: April 28, 2016
+//Circuit.h
+
 #ifndef CIRCUIT_H
 #define CIRCUIT_H
 
@@ -13,6 +18,8 @@
 #include "Gate.h"
 
 using namespace std;
+
+//This class holds a list of gates that may be a potential solution
 
 class Circuit
 {
@@ -38,6 +45,5 @@ public:
     bitset<30> factorGates(bitset<30> n);
     void print(ofstream &out);
     void print();
-    static int random(int i){return rand()%i;}
 };
 #endif
