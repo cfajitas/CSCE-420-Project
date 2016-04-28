@@ -1,4 +1,4 @@
-CC = g++-5 -std=c++14
+CC = g++ -std=c++14
 all: Main 
 
 Problem.o: Problem.h Problem.cpp
