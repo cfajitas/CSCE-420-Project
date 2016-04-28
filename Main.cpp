@@ -53,7 +53,7 @@ int main()
         cout<<"Exiting\n";
         return 0;
     }
-    string outFile = file+"_output.txt";
+    string outFile = file+"_Output.txt";
     solve.print(outFile);
     solve.print();
     cout<<"\nFactoring Solution\n";
